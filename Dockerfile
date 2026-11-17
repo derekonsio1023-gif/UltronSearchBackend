@@ -1,7 +1,9 @@
+FROM docker.io/caddy:2-alpine AS caddy_builder
+
 FROM docker.io/searxng/searxng:latest
 
 USER root
-RUN apk add --no-cache caddy
+COPY --from=caddy_builder /usr/bin/caddy /usr/bin/caddy
 
 COPY settings.yml /etc/searxng/settings.yml
 COPY Caddyfile /etc/caddy/Caddyfile
